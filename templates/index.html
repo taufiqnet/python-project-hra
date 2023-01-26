@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header class="bg-white shadow">
+        <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+        </div>
+    </header>
+    <main>
+        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            <!-- Replace with your content -->
+            <div class="px-4 py-6 sm:px-0">
+                <div class="flex flex-col">
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-hidden">
+                                <div class="flex flex-col">
+                                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                        <div class="py-4 inline-block min-w-full sm:px-6 lg:px-8">
+                                            <div class="overflow-hidden">
+                                                <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">Employee</h5>
+                                                <table class="min-w-full text-center">
+                                                    <thead class="border-b bg-gray-500">
+                                                    <tr>
+                                                        <th scope="col"
+                                                            class="text-sm font-medium text-white px-6 py-4">
+                                                            Emp No.
+                                                        </th>
+                                                        <th scope="col"
+                                                            class="text-sm font-medium text-white px-6 py-4">
+                                                            Firstname
+                                                        </th>
+                                                        <th scope="col"
+                                                            class="text-sm font-medium text-white px-6 py-4">
+                                                            Lastname
+                                                        </th>
+                                                        <th scope="col"
+                                                            class="text-sm font-medium text-white px-6 py-4">
+                                                            Hire Date
+                                                        </th>
+                                                        <th scope="col"
+                                                            class="text-sm font-medium text-white px-6 py-4">
+                                                            Image
+                                                        </th>
+
+                                                    </tr>
+                                                    </thead class="border-b">
+                                                    <tbody>
+                                                    {% for employee in object_list %}
+                                                    <tr class="bg-white border-b">
+                                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+
+
+                                                            <a href="{{ employee.get_absolute_url }}">{{ employee.emp_no }}</a>
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ employee.first_name }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ employee.last_name }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ employee.hire_date }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <img src="{{ employee.imageURL|default:'/media_root/profile.png' }}" class="h-12 w-12 rounded-full">
+                                                        </td>
+
+                                                    </tr class="bg-white border-b">
+                                                    {% endfor %}
+
+                                                    </tbody>
+
+
+                                                </table>
+                                                {% if is_paginated %}
+                                                <div class="flex justify-center">
+  <nav aria-label="Page navigation example">
+    <ul class="flex list-style-none">
+        {% if page_obj.has_previous %}
+      <li class="page-item"><a
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
+          href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+      <li class="page-item"><a
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+          href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+      {% if page_obj.has_next %}
+      <li class="page-item"><a
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+          href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+      {% endif %}
+  </nav>
+</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /End replace -->
+        </div>
+    </main>
+</div>
+
+
+{% endblock content %}
+

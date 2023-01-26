@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags %}
+
+{% block content %}
+<div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <h3 class="text-gray-900 text-xl leading-tight font-medium mb-2">Delete Employee</h3>
+    <div class="mt-8 max-w-md">
+
+        <p>Are you sure you want to delete this employee?</p>
+
+            <form action="" method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                {{ form|crispy }}
+
+                <input type="submit" value="Delete" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"/>
+
+                <a href="{% url 'core:employee' %}" class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">Cancel</a>
+            </form>
+
+    </div>
+</div>
+{% endblock content %}
