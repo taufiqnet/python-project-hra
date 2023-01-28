@@ -6,9 +6,48 @@ from django.utils.translation import gettext_lazy as _
 
 from django.utils.html import mark_safe
 
-GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
+
+class Department(models.Model):
+    name = models.CharField(max_length=125)
+    description = models.CharField(max_length=125, null=True, blank=True)
+
+    created = models.DateTimeField(verbose_name=_('Created'), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_('Updated'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('Department')
+        verbose_name_plural = _('Departments')
+        ordering = ['name', 'created']
+
+    def __str__(self):
+        return self.name
+
+
+# sex choices
+# according to https://en.wikipedia.org/wiki/ISO/IEC_5218
+NOT_KNOWN = "0"
+MALE = "1"
+FEMALE = "2"
+NOT_APPLICABLE = "9"
+
+SEX_CHOICES = (
+        (NOT_KNOWN, _("Not Known")),
+        (MALE, _("Male")),
+        (FEMALE, _("Female")),
+        (NOT_APPLICABLE, _("Not Applicable")),
+    )
+
+
+FULL_TIME = 'Full-Time'
+PART_TIME = 'Part-Time'
+CONTRACT = 'Contract'
+INTERN = 'Intern'
+
+EMPLOYEETYPE = (
+    (FULL_TIME,'Full-Time'),
+    (PART_TIME,'Part-Time'),
+    (CONTRACT,'Contract'),
+    (INTERN,'Intern'),
     )
 
 
@@ -17,8 +56,12 @@ class Employee(models.Model):
     birth_date = models.DateField(_('birthday'), blank=True, null=True)
     first_name = models.CharField(_('first name'), max_length=50)
     last_name = models.CharField(_('last name'), max_length=50)
-    gender = models.CharField(_('gender'), max_length=1, choices=GENDER_CHOICES)
+    sex = models.CharField(_("Gender"), choices=SEX_CHOICES, max_length=1, default=NOT_KNOWN, blank=True, db_index=True,)
     hire_date = models.DateField(_('hire date'), blank=True, null=True)
+    department = models.ForeignKey(Department,verbose_name =_('Department'),on_delete=models.SET_NULL,null=True,default=None)
+    employeetype = models.CharField(_('Employee Type'), max_length=15, default=FULL_TIME, choices=EMPLOYEETYPE,
+                                    blank=False, null=True)
+
     created = models.DateTimeField(_('created'),auto_now_add=True)
     updated = models.DateTimeField(_('updated'),auto_now=True)
 
@@ -38,7 +81,7 @@ class Employee(models.Model):
         db_table = 'employees'
 
     def __str__(self):
-        return "{} {}".format(self.first_name, self.last_name)
+        return "{} {} ({})".format(self.first_name, self.last_name, self.emp_no)
 
     def get_absolute_url(self):
         return reverse("core:employee-detail", args=[self.emp_no])

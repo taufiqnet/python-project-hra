@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee
+from .models import Employee, Department
 from . import models
 
 from import_export import resources
@@ -16,10 +16,27 @@ class EmployeeResource(resources.ModelResource):
         export_order = ('emp_no', 'first_name', 'last_name', 'hire_date', 'birth_date', 'gender','created','updated')
 
 
+class DepartmentResource(resources.ModelResource):
+    department = Field()
+
+    class Meta:
+        model = Department
+        fields = ('name', 'description', 'created','updated')
+        export_order = ('name', 'description', 'created','updated')
+
+
 @admin.register(models.Employee)
 class EmployeeAdmin(ExportActionMixin, admin.ModelAdmin):
     resource_class = EmployeeResource
     list_display = ('emp_no', 'first_name', 'last_name', 'hire_date' , 'image_tag', 'created', 'updated')
     ordering = ['emp_no']
     search_fields = ['emp_no']
+
+
+@admin.register(models.Department)
+class EmployeeAdmin(ExportActionMixin, admin.ModelAdmin):
+    resource_class = DepartmentResource
+    list_display = ('name', 'description', 'created','updated')
+    ordering = ['name']
+    search_fields = ['name']
 

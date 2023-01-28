@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'core.apps.CoreConfig', #HRA core apps
+    'leave.apps.LeaveConfig', #HRA leave apps
 
     #3rd Party Apps
     'import_export',

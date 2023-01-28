@@ -6,7 +6,10 @@ from .views import (
     EmployeeCreateView,
     EmployeeUpdateView,
     EmployeeDeleteView,
+
+    DepartmentListView,
 )
+from .views import department_create
 
 app_name = "core"
 
@@ -18,4 +21,8 @@ urlpatterns = [
     path('employee/update/<int:pk>/', EmployeeUpdateView.as_view(), name='employee-update'),
     path('employee/delete/<int:pk>/', EmployeeDeleteView.as_view(), name='employee-delete'),
     path('employee/<int:pk>/', EmployeeDetailView.as_view(), name="employee-detail"),
+
+    path('department', DepartmentListView.as_view(), name='department-list'),
+    path('department/create/', department_create, name='department-create'),
+
 ]
